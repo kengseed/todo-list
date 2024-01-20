@@ -11,5 +11,6 @@ router.put("/todo",  controller.update);
 router.delete("/todo/:id",  controller.delete);
 
 // Custom routing
+router.delete("/todo/removeTasksByUser/:user",  controller.deleteByUserName);
 
 export default router;

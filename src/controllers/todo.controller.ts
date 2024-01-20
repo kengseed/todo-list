@@ -7,9 +7,9 @@ class ToDoController {
         {
             id: uuidv4(),
             title: "Test first item",
-            createdBy: "Test user",
+            createdBy: "test-user",
             createdDateTime: new Date(),
-            updatedBy: "Test user",
+            updatedBy: "test-user",
             updatedDateTime: new Date()
         }
     ];
@@ -24,6 +24,7 @@ class ToDoController {
         this.add = this.add.bind(this);
         this.update = this.update.bind(this);
         this.delete = this.delete.bind(this);
+        this.deleteByUserName = this.deleteByUserName.bind(this);
     }
 
     getAll(req: Request, res: Response, next: NextFunction) {
@@ -90,7 +91,7 @@ class ToDoController {
     delete(req: Request, res: Response, next: NextFunction) {
         //Find data by id
         let index = this.dataList.findIndex(o => o.id == req.params.id);
-        let result: string = "Deleted successful"; 
+        let result: string = "Deleted successful";
 
         //Delete and return status
         if (index > -1) {
@@ -100,6 +101,30 @@ class ToDoController {
             res.statusCode = 204;
             result = "Not found data to delete";
         }
+
+        res.send({ data: result });
+    }
+
+    deleteByUserName(req: Request, res: Response, next: NextFunction) {
+        //Return if no data
+        if (this.dataList.length == 0) {
+            res.statusCode = 204;
+            res.send();
+        }
+
+        //Delete data
+        let isFound: boolean = false;
+        let result: string = "Deleted successful";
+        this.dataList.forEach(o => {
+            let index = this.dataList.findIndex(o => o.createdBy == req.params.user);
+            if (index > -1) {
+                this.dataList.splice(index, 1);
+                isFound = true;
+            }             
+        });
+
+        //Not found data to update
+        if (!isFound) res.statusCode = 204;
 
         res.send({ data: result });
     }

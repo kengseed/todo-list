@@ -12,6 +12,5 @@ app.use(express.json());
 // Config API Router
 app.use(apiVersion, todoRouter);
 
-
 app.listen(port, () => console.log(`NodeJS is running on port ${port}`)); 
 
