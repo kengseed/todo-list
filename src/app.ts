@@ -1,13 +1,17 @@
 import express, { Express, Request, Response } from 'express'
+import todoRouter from './routes/todo.router'
 
-const app: Express = express()
-
+// Create instance and variables
+const app: Express = express(); 
+const apiVersion: string = "/api/v1";
 const port: number = 3030
 
-app.get('/', (req: Request, res: Response) => {
-  res.json({
-    message: 'Hello Express + TypeScirpt!!',
-  })
-})
+// Config API message body 
+app.use(express.json());
 
-app.listen(port, () => console.log(`Application is running on port ${port}`))
+// Config API Router
+app.use(apiVersion, todoRouter);
+
+
+app.listen(port, () => console.log(`NodeJS is running on port ${port}`)); 
+
